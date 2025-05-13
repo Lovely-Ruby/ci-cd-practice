@@ -2,12 +2,14 @@ name: Build & Deploy Vue 3 App
 
 on:
   push:
-    branches: [main] # 每次 push 到 main 就部署
+    branches: [main]
+
+permissions:
+  contents: write  # 👈 给写入 gh-pages 分支的权限
 
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
