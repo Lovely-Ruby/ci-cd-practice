@@ -1,17 +1,15 @@
-name: CI for Vue 3 App
+name: Build & Deploy Vue 3 App
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches: [main] # 每次 push 到 main 就部署
 
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Setup Node.js
@@ -25,6 +23,8 @@ jobs:
       - name: Build project
         run: npm run build
 
-      # 如果你有测试的话也可以加上
-      # - name: Run tests
-      #   run: npm run test
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
